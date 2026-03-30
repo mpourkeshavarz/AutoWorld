@@ -109,9 +109,9 @@
 				<td>
 					<h3>
             <span class="author-block">
-              <a href="https://sunlighted.github.io/" target="_blank" style="color: black;">Mozhgan Pourkeshavatz,</a><sup></sup></span>&nbsp;
+              <a href="" style="color: black;">Mozhgan Pourkeshavatz,</a><sup></sup></span>&nbsp;
             <span class="author-block">
-              <a href="https://github.com/migooll" target="_blank" style="color: black;">Tianran Liu,</a><sup></sup></span>&nbsp;
+              <a href="" style="color: black;">Tianran Liu,</a><sup></sup></span>&nbsp;
             <span class="author-block">
               <a href="https://leaf.utias.utoronto.ca/author/nicholas-rhinehart/" target="_blank" style="color: black;">Nicholas Rhinehart</a><sup></sup></span>
 					</h3>
@@ -141,18 +141,31 @@
 <div class="content" style="margin-top: 50px;">
 <div style="display: flex; justify-content: center; margin-bottom: 40px;">
   <img
-    src="figures/main_fig.png"
+    src="figures/main_fig_trimmed.png"
     alt="Main figure"
     style="width: 80%; height: auto; display: block;"
   >
+</div>
+<div class="method-overview-text" style="margin-top: -12px; margin-bottom: 32px; text-align: center;">
+  <p>
+    Overview of AutoWorld. A LiDAR-based world model is first trained on unlabeled sequences to learn latent scene dynamics. At simulation time, the trained model predicts future occupancies from the observed LiDAR history, which condition the motion generation module. At inference, we sample from both the world model and the motion generator using a training-free cascaded latent diversity strategy.
+  </p>
 </div>
 
 	<div class="hr"></div>
 	<div>
 		<h2>Abstract</h2>
 		<p class="abstract">
-      Multi-agent traffic simulation is central to developing and testing autonomous driving systems. Recent data-driven simulators have achieved promising results, but rely heavily on supervised learning from labeled trajectories or semantic annotations, making it costly to scale their performance. Meanwhile, large amounts of unlabeled sensor data can be collected at scale but remain largely unused by existing traffic simulation frameworks. This raises a key question: How can a method harness unlabeled data to improve traffic simulation performance? In this work, we propose AutoWorld, a traffic simulation framework that employs a world model learned from unlabeled occupancy representations of LiDAR data. Given world model samples, AutoWorld constructs a coarse-to-fine predictive scene context as input to a multi-agent motion generation model. To promote sample diversity, AutoWorld uses a cascaded Determinantal Point Process framework to guide the sampling processes of both the world model and the motion model. Furthermore, we designed a motion-aware latent supervision objective that enhances AutoWorld's representation of scene dynamics. Experiments on the WOSAC benchmark show that AutoWorld ranks first on the leaderboard according to the primary Realism Meta Metric (RMM). We further show that simulation performance consistently improves with the inclusion of unlabeled LiDAR data, and study the efficacy of each component with ablations. Our method paves the way for  scaling traffic simulation realism without additional labeling.
-    </p>
+			Multi-agent traffic simulation is central to developing and testing autonomous driving systems. Recent data-driven simulators have achieved promising results, but rely heavily on supervised learning from labeled trajectories or semantic annotations, making it costly to scale their performance. Meanwhile, large amounts of unlabeled sensor data can be collected at scale but remain largely unused by existing traffic simulation frameworks. This raises a key question: <span class="force-bold">How can a method harness unlabeled data to improve traffic simulation performance?</span>
+		</p>
+		<br>
+		<p class="abstract">
+			In this work, we propose <span class="force-bold">AutoWorld</span>, a traffic simulation framework that employs a world model learned from unlabeled occupancy representations of LiDAR data. Given world model samples, AutoWorld constructs a coarse-to-fine predictive scene context as input to a multi-agent motion generation model. To promote sample diversity, AutoWorld uses a cascaded Determinantal Point Process framework to guide the sampling processes of both the world model and the motion model. Furthermore, we designed a motion-aware latent supervision objective that enhances AutoWorld's representation of scene dynamics.
+		</p>
+		<br>
+		<p class="abstract">
+			Experiments on the WOSAC benchmark show that AutoWorld ranks first on the leaderboard according to the primary Realism Meta Metric (RMM). We further show that simulation performance consistently improves with the inclusion of unlabeled LiDAR data, and study the efficacy of each component with ablations. Our method paves the way for scaling traffic simulation realism without additional labeling.
+		</p>
 	</div>
 
   <div class="hr"></div>
@@ -560,7 +573,7 @@
       </div>
       <div>
         <video playsinline autoplay loop preload muted width="100%" controls>
-          <source src="videos/rollout_02_two_panel 2.mp4" type="video/mp4">
+          <source src="videos/rollout_021_two_panel.mp4" type="video/mp4">
         </video>
       </div>
       <div>
