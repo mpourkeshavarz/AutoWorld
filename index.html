@@ -1,0 +1,650 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>AutoWorld</title>
+	<meta property="og:title" content="AutoWorld:">
+	<meta property="og:description" content="Scaling Multi-Agent Traffic
+  Simulation with Self-Supervised World Models">
+	<link rel="stylesheet" href="./files/style.css">
+	<link rel="stylesheet" href="./files/css">
+  <link rel="icon" type="image/png" href="figures/logo.png">
+	<link rel="stylesheet" href="./files/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>@import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap);</style><style>/**
+ * @license
+ * MyFonts Webfont Build ID 3960512, 2020-10-14T09:47:27-0400
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: SofiaPro-Light by Mostardesign
+ * URL: https://www.myfonts.com/fonts/mostardesign/sofia-pro/light/
+ *
+ * Webfont: SofiaPro-Regular by Mostardesign
+ * URL: https://www.myfonts.com/fonts/mostardesign/sofia-pro/regular/
+ *
+ * Webfont: SofiaPro-Medium by Mostardesign
+ * URL: https://www.myfonts.com/fonts/mostardesign/sofia-pro/medium/
+ *
+ *
+ * Webfonts copyright: Copyright © Olivier Gourvat - Mostardesign Type Foundry, 2020. All rights reserved.
+ *
+ * © 2020 MyFonts Inc
+*/
+
+/* @import must be at top of file, otherwise CSS will not work */
+/* @import url('//hello.myfonts.net/count/3caa3a'); */
+
+@font-face {
+  font-family: 'SofiaPro';
+  font-style: normal;
+  font-weight: 300;
+  src: url(/150720bb1f8e1d4cd5bf.woff2) format('woff2'), url(/95be63f014dca7c7d2e0.woff) format('woff');
+}
+@font-face {
+  font-family: 'SofiaPro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/c64c7cfb75e2e49dd98d.woff2) format('woff2'), url(/cb9ef5cae9812fd54c18.woff) format('woff');
+}
+@font-face {
+  font-family: 'SofiaPro';
+  font-style: normal;
+  font-weight: 500;
+  src: url(/7ac30946d57c5e356c30.woff2) format('woff2'), url(/345f4a27750c7e5c044e.woff) format('woff');
+}
+
+
+</style>
+<style>
+  b,
+  strong {
+    font-weight: 700 !important;
+    font-synthesis: weight;
+  }
+
+  .force-bold {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 900 !important;
+    color: #000 !important;
+    -webkit-text-stroke: 0.15px currentColor;
+    text-shadow: 0 0 0.01px currentColor;
+  }
+
+  .method-overview-text {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto 24px auto;
+    text-align: justify;
+    text-justify: inter-word;
+    line-height: 1.6;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .method-overview-text p {
+    margin: 0 0 1.1em 0;
+  }
+
+  .method-overview-text p:last-child {
+    margin-bottom: 0;
+  }
+</style></head>
+
+<body><div class="header" id="top">
+	<h1>
+    <span style="font-weight: bolder; color: #7A81FF;">
+      AutoWorld:
+    </span> 
+    <span style="font-weight: bolder;">
+      Scaling Multi-Agent Traffic Simulation with Self-Supervised World Models</h1>
+    </span>
+
+	<table class="authors">
+		<tbody>
+			<tr>
+				<td>
+					<h3>
+            <span class="author-block">
+              <a href="https://sunlighted.github.io/" target="_blank" style="color: black;">Mozhgan Pourkeshavatz,</a><sup></sup></span>&nbsp;
+            <span class="author-block">
+              <a href="https://github.com/migooll" target="_blank" style="color: black;">Tianran Liu,</a><sup></sup></span>&nbsp;
+            <span class="author-block">
+              <a href="https://leaf.utias.utoronto.ca/author/nicholas-rhinehart/" target="_blank" style="color: black;">Nicholas Rhinehart</a><sup></sup></span>
+					</h3>
+				</td>
+			</tr>
+      <tr>
+        <td>
+          <h3>
+            <sup></sup>University of Toronto&nbsp;
+          </h3>
+        </td>
+      </tr>
+		</tbody>
+	</table>
+
+  <div class="links" style="margin-top: auto;">
+    <a href="" class="btn"><span class="icon"><i class="ai ai-arxiv"></i></span>&nbsp;&nbsp;arXiv</a> &nbsp;
+    <a href="" class="btn"><svg class="svg-inline--fa fa-github fa-w-16" style="width: 18px; height: 18px;" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 484 500" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>&nbsp;&nbsp;Code (coming soon)</a>&nbsp;
+  </div>
+
+
+  </div>
+</div>
+
+
+
+<div class="content" style="margin-top: 50px;">
+<div style="display: flex; justify-content: center; margin-bottom: 40px;">
+  <img
+    src="figures/main_fig.png"
+    alt="Main figure"
+    style="width: 80%; height: auto; display: block;"
+  >
+</div>
+
+	<div class="hr"></div>
+	<div>
+		<h2>Abstract</h2>
+		<p class="abstract">
+      Multi-agent traffic simulation is central to developing and testing autonomous driving systems. Recent data-driven simulators have achieved promising results, but rely heavily on supervised learning from labeled trajectories or semantic annotations, making it costly to scale their performance. Meanwhile, large amounts of unlabeled sensor data can be collected at scale but remain largely unused by existing traffic simulation frameworks. This raises a key question: How can a method harness unlabeled data to improve traffic simulation performance? In this work, we propose AutoWorld, a traffic simulation framework that employs a world model learned from unlabeled occupancy representations of LiDAR data. Given world model samples, AutoWorld constructs a coarse-to-fine predictive scene context as input to a multi-agent motion generation model. To promote sample diversity, AutoWorld uses a cascaded Determinantal Point Process framework to guide the sampling processes of both the world model and the motion model. Furthermore, we designed a motion-aware latent supervision objective that enhances AutoWorld's representation of scene dynamics. Experiments on the WOSAC benchmark show that AutoWorld ranks first on the leaderboard according to the primary Realism Meta Metric (RMM). We further show that simulation performance consistently improves with the inclusion of unlabeled LiDAR data, and study the efficacy of each component with ablations. Our method paves the way for  scaling traffic simulation realism without additional labeling.
+    </p>
+	</div>
+
+  <div class="hr"></div>
+	<div>
+		<h2>AutoWorld Harnesses Unlabeled Sensor Data</h2>
+    <div class="figure-caption" style="margin-top: auto;">
+      <div class="method-overview-text">
+        <p>
+          Traffic simulation aims to generate realistic multi-agent motion, reflecting the inherently multimodal distribution of possible future outcomes. Learning such a distribution with supervised methods typically requires large-scale annotated trajectory data. However, collecting high-quality motion labels at scale is time-consuming and expensive, limiting the diversity and coverage of driving scenarios available for training. In contrast, raw sensor data such as LiDAR can be collected at scale without manual annotation.
+        </p>
+        <p>
+          The main idea behind our proposed semi-supervised framework is to complement supervised motion generation with a self-supervised predictive world modeling stage that leverages <i>unlabeled</i> data to implicitly learn scene dynamics and, by doing so, provide structured future context that improves downstream motion generation. We instantiate this idea in <b>AutoWorld</b>, a traffic simulation framework that formulates behavior generation as a generative process conditioned on a predictive world model of the environment. In specific, we first learn a motion-aware latent occupancy world model in a fully self-supervised manner from unlabeled LiDAR data, forecasting future latent occupancies. This stage serves as a scalable pretraining phase that implicitly captures motion-driven scene dynamics without requiring semantic or trajectory annotations. From the predicted future latent occupancies, we construct a predictive scene context that summarizes anticipated scene evolution. We then generate agent motions using a conditional diffusion model given both the future latent sequence and the predictive scene context, forming a coarse-to-fine representation of the future scene. Finally, to promote a variety of plausible multi-agent behaviors, we introduce a cascaded latent diversity strategy applied at inference time.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div>
+    <h2>Results</h2>
+    <div style="margin: auto; margin-top: auto" align="center">
+      <h4>
+        Results on the <b>WOSAC leaderboard</b>. RMM (Realism Meta Metric) is the primary ranking metric. The "<sup>&dagger;</sup>" denotes technical reports for the Waymo challenge.
+      </h4>
+    </div>
+    <div style="overflow-x: auto; margin-top: 24px;">
+      <table style="width: 100%; min-width: 980px; border-collapse: collapse; font-size: 15px; text-align: center;">
+        <thead>
+          <tr style="border-top: 2px solid #000; border-bottom: 1px solid #000;">
+            <th style="padding: 10px 12px; text-align: left;">Model</th>
+            <th style="padding: 10px 12px; text-align: left;">Reference</th>
+            <th style="padding: 10px 12px; background-color: #efefef;">RMM(&uarr;)</th>
+            <th style="padding: 10px 12px;">Kinematic(&uarr;)</th>
+            <th style="padding: 10px 12px;">Interactive(&uarr;)</th>
+            <th style="padding: 10px 12px;">Map-based(&uarr;)</th>
+            <th style="padding: 10px 12px;">minADE(&darr;)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">InfGen</td>
+            <td style="padding: 10px 12px; text-align: left;">ICLR 2026</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7731</td>
+            <td style="padding: 10px 12px;">0.4493</td>
+            <td style="padding: 10px 12px;">0.8084</td>
+            <td style="padding: 10px 12px;">0.9127</td>
+            <td style="padding: 10px 12px;">1.4252</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">LLM2AD</td>
+            <td style="padding: 10px 12px; text-align: left;">CoRL 2025</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7779</td>
+            <td style="padding: 10px 12px;">0.4846</td>
+            <td style="padding: 10px 12px;">0.8048</td>
+            <td style="padding: 10px 12px;">0.9109</td>
+            <td style="padding: 10px 12px;"><span class="force-bold">1.2827</span></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">SMART-tiny</td>
+            <td style="padding: 10px 12px; text-align: left;">NeurIPS 2024</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7814</td>
+            <td style="padding: 10px 12px;">0.4854</td>
+            <td style="padding: 10px 12px;">0.8089</td>
+            <td style="padding: 10px 12px;">0.9153</td>
+            <td style="padding: 10px 12px;">1.3931</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">UniMM<sup>&dagger;</sup></td>
+            <td style="padding: 10px 12px; text-align: left;">-</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7829</td>
+            <td style="padding: 10px 12px;">0.4914</td>
+            <td style="padding: 10px 12px;">0.8089</td>
+            <td style="padding: 10px 12px;">0.9161</td>
+            <td style="padding: 10px 12px;">1.2949</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">UniMotion</td>
+            <td style="padding: 10px 12px; text-align: left;">NeurIPS 2025</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7851</td>
+            <td style="padding: 10px 12px;"><u>0.4943</u></td>
+            <td style="padding: 10px 12px;">0.8105</td>
+            <td style="padding: 10px 12px;">0.9187</td>
+            <td style="padding: 10px 12px;">1.3036</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">TrajTok</td>
+            <td style="padding: 10px 12px; text-align: left;">ICLR 2026</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7852</td>
+            <td style="padding: 10px 12px;">0.4887</td>
+            <td style="padding: 10px 12px;">0.8116</td>
+            <td style="padding: 10px 12px;"><span class="force-bold">0.9207</span></td>
+            <td style="padding: 10px 12px;">1.3179</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">CAT-K</td>
+            <td style="padding: 10px 12px; text-align: left;">CVPR 2025</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7846</td>
+            <td style="padding: 10px 12px;">0.4931</td>
+            <td style="padding: 10px 12px;">0.8106</td>
+            <td style="padding: 10px 12px;">0.9177</td>
+            <td style="padding: 10px 12px;">1.3065</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">RLFTSim<sup>&dagger;</sup></td>
+            <td style="padding: 10px 12px; text-align: left;">-</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7857</td>
+            <td style="padding: 10px 12px;">0.4927</td>
+            <td style="padding: 10px 12px;">0.8129</td>
+            <td style="padding: 10px 12px;">0.9183</td>
+            <td style="padding: 10px 12px;">1.3252</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">SMART-R1</td>
+            <td style="padding: 10px 12px; text-align: left;">ICLR 2026</td>
+            <td style="padding: 10px 12px; background-color: #efefef;">0.7858</td>
+            <td style="padding: 10px 12px;"><span class="force-bold">0.4944</span></td>
+            <td style="padding: 10px 12px;">0.8110</td>
+            <td style="padding: 10px 12px;"><u>0.9201</u></td>
+            <td style="padding: 10px 12px;"><u>1.2885</u></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">DecompGAIL</td>
+            <td style="padding: 10px 12px; text-align: left;">ICLR 2026</td>
+            <td style="padding: 10px 12px; background-color: #efefef;"><u>0.7864</u></td>
+            <td style="padding: 10px 12px;">0.4919</td>
+            <td style="padding: 10px 12px;"><span class="force-bold">0.8152</span></td>
+            <td style="padding: 10px 12px;">0.9176</td>
+            <td style="padding: 10px 12px;">1.4209</td>
+          </tr>
+          <tr style="border-top: 1px solid #000; border-bottom: 2px solid #000;">
+            <td style="padding: 10px 12px; text-align: left;"><span class="force-bold">AutoWorld (Ours)</span></td>
+            <td style="padding: 10px 12px; text-align: left;">-</td>
+            <td style="padding: 10px 12px; background-color: #efefef;"><span class="force-bold">0.7865</span></td>
+            <td style="padding: 10px 12px;">0.4931</td>
+            <td style="padding: 10px 12px;"><u>0.8143</u></td>
+            <td style="padding: 10px 12px;">0.9185</td>
+            <td style="padding: 10px 12px;">1.3051</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div>
+    <h2>Ablation studies on WOSAC</h2>
+    <div style="margin: auto; margin-top: auto" align="center">
+      <h4>
+        Ablation study on WOSAC 2% validation split. The "<sup>&dagger;</sup>" denotes the model we used to submit on the leaderboard.
+      </h4>
+    </div>
+    <div style="overflow-x: auto; margin-top: 24px;">
+      <table style="width: 100%; min-width: 1160px; border-collapse: collapse; font-size: 14px; text-align: center;">
+        <thead>
+          <tr style="border-top: 2px solid #000; border-bottom: 1px solid #000;">
+            <th style="padding: 10px 10px; text-align: left;">Model</th>
+            <th style="padding: 10px 10px;">Samp.<br>Occ.</th>
+            <th style="padding: 10px 10px;">Samp.<br>Mot.</th>
+            <th style="padding: 10px 10px;"><i>N</i> x <i>M</i></th>
+            <th style="padding: 10px 10px;">RMM(&uarr;)</th>
+            <th style="padding: 10px 10px;">Kinematic(&uarr;)</th>
+            <th style="padding: 10px 10px;">Interactive(&uarr;)</th>
+            <th style="padding: 10px 10px;">Map-based(&uarr;)</th>
+            <th style="padding: 10px 10px;">minADE(&darr;)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="9" style="padding: 10px 12px; text-align: left; font-style: italic;">
+              Full AutoWorld (Cascaded Diversity; only meaningful when N &gt; 1 and M &gt; 1)
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="padding: 10px 12px; text-align: left;">AutoWorld</td>
+            <td rowspan="2" style="padding: 10px 12px;">P<sub>&mu;</sub></td>
+            <td rowspan="2" style="padding: 10px 12px;">P<sub>f</sub></td>
+            <td style="padding: 10px 12px;">4 x 8<sup>&dagger;</sup></td>
+            <td style="padding: 10px 12px;">0.7746</td>
+            <td style="padding: 10px 12px;">0.4878</td>
+            <td style="padding: 10px 12px;">0.7968</td>
+            <td style="padding: 10px 12px;">0.9099</td>
+            <td style="padding: 10px 12px;">1.3102</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td style="padding: 10px 12px;">8 x 4</td>
+            <td style="padding: 10px 12px;">0.7728</td>
+            <td style="padding: 10px 12px;">0.4889</td>
+            <td style="padding: 10px 12px;">0.7948</td>
+            <td style="padding: 10px 12px;">0.9067</td>
+            <td style="padding: 10px 12px;">1.3097</td>
+          </tr>
+
+          <tr>
+            <td rowspan="3" style="padding: 10px 12px; text-align: left;">W/o scene diversity</td>
+            <td rowspan="3" style="padding: 10px 12px;">IID</td>
+            <td rowspan="3" style="padding: 10px 12px;">P<sub>f</sub></td>
+            <td style="padding: 10px 12px;">1 x 32</td>
+            <td style="padding: 10px 12px;">0.7664</td>
+            <td style="padding: 10px 12px;">0.4827</td>
+            <td style="padding: 10px 12px;">0.7969</td>
+            <td style="padding: 10px 12px;">0.8894</td>
+            <td style="padding: 10px 12px;">1.3244</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px;">4 x 8</td>
+            <td style="padding: 10px 12px;">0.7648</td>
+            <td style="padding: 10px 12px;">0.4846</td>
+            <td style="padding: 10px 12px;">0.7926</td>
+            <td style="padding: 10px 12px;">0.8892</td>
+            <td style="padding: 10px 12px;">1.3362</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td style="padding: 10px 12px;">8 x 4</td>
+            <td style="padding: 10px 12px;">0.7671</td>
+            <td style="padding: 10px 12px;">0.4873</td>
+            <td style="padding: 10px 12px;">0.7943</td>
+            <td style="padding: 10px 12px;">0.8921</td>
+            <td style="padding: 10px 12px;">1.3589</td>
+          </tr>
+
+          <tr>
+            <td rowspan="3" style="padding: 10px 12px; text-align: left;">W/o motion diversity</td>
+            <td rowspan="3" style="padding: 10px 12px;">P<sub>&mu;</sub></td>
+            <td rowspan="3" style="padding: 10px 12px;">IID</td>
+            <td style="padding: 10px 12px;">4 x 8</td>
+            <td style="padding: 10px 12px;">0.7563</td>
+            <td style="padding: 10px 12px;">0.4833</td>
+            <td style="padding: 10px 12px;">0.7758</td>
+            <td style="padding: 10px 12px;">0.8871</td>
+            <td style="padding: 10px 12px;">1.4138</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px;">8 x 4</td>
+            <td style="padding: 10px 12px;">0.7539</td>
+            <td style="padding: 10px 12px;">0.4827</td>
+            <td style="padding: 10px 12px;">0.7723</td>
+            <td style="padding: 10px 12px;">0.8853</td>
+            <td style="padding: 10px 12px;">1.4093</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td style="padding: 10px 12px;">32 x 1</td>
+            <td style="padding: 10px 12px;">0.7492</td>
+            <td style="padding: 10px 12px;">0.4804</td>
+            <td style="padding: 10px 12px;">0.7651</td>
+            <td style="padding: 10px 12px;">0.8824</td>
+            <td style="padding: 10px 12px;">1.3894</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4" style="padding: 10px 12px; text-align: left;">W/o diversity</td>
+            <td rowspan="4" style="padding: 10px 12px;">IID</td>
+            <td rowspan="4" style="padding: 10px 12px;">IID</td>
+            <td style="padding: 10px 12px;">1 x 32</td>
+            <td style="padding: 10px 12px;">0.7610</td>
+            <td style="padding: 10px 12px;">0.4849</td>
+            <td style="padding: 10px 12px;">0.7855</td>
+            <td style="padding: 10px 12px;">0.8873</td>
+            <td style="padding: 10px 12px;">1.4369</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px;">4 x 8</td>
+            <td style="padding: 10px 12px;">0.7597</td>
+            <td style="padding: 10px 12px;">0.4840</td>
+            <td style="padding: 10px 12px;">0.7839</td>
+            <td style="padding: 10px 12px;">0.8861</td>
+            <td style="padding: 10px 12px;">1.4256</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px;">8 x 4</td>
+            <td style="padding: 10px 12px;">0.7618</td>
+            <td style="padding: 10px 12px;">0.4846</td>
+            <td style="padding: 10px 12px;">0.7876</td>
+            <td style="padding: 10px 12px;">0.8870</td>
+            <td style="padding: 10px 12px;">1.4334</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td style="padding: 10px 12px;">32 x 1</td>
+            <td style="padding: 10px 12px;">0.7523</td>
+            <td style="padding: 10px 12px;">0.4796</td>
+            <td style="padding: 10px 12px;">0.7728</td>
+            <td style="padding: 10px 12px;">0.8819</td>
+            <td style="padding: 10px 12px;">1.4178</td>
+          </tr>
+
+          <tr>
+            <td rowspan="2" style="padding: 10px 12px; text-align: left;">W/o WM</td>
+            <td rowspan="2" style="padding: 10px 12px;">-</td>
+            <td style="padding: 10px 12px;">P<sub>f</sub></td>
+            <td rowspan="2" style="padding: 10px 12px;">- x 32</td>
+            <td style="padding: 10px 12px;">0.7549</td>
+            <td style="padding: 10px 12px;">0.4745</td>
+            <td style="padding: 10px 12px;">0.7848</td>
+            <td style="padding: 10px 12px;">0.8766</td>
+            <td style="padding: 10px 12px;">1.4279</td>
+          </tr>
+          <tr style="border-bottom: 2px solid #000;">
+            <td style="padding: 10px 12px;">IID</td>
+            <td style="padding: 10px 12px;">0.7472</td>
+            <td style="padding: 10px 12px;">0.4749</td>
+            <td style="padding: 10px 12px;">0.7741</td>
+            <td style="padding: 10px 12px;">0.8682</td>
+            <td style="padding: 10px 12px;">1.4892</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div>
+    <h2>Motion-Aware Latent Supervision</h2>
+    <div style="margin: auto; margin-top: auto" align="center">
+      <h4>
+        Effect of motion-aware latent supervision on world modeling and downstream traffic simulation. By focusing on dynamic occupancy transitions, the world-model quality and traffic simulation performance improve without requiring semantic labels.
+      </h4>
+    </div>
+    <div style="overflow-x: auto; margin-top: 24px;">
+      <table style="width: 95%; min-width: 860px; margin: 0 auto; border-collapse: collapse; font-size: 14px; text-align: center;">
+        <thead>
+          <tr style="border-top: 2px solid #000; border-bottom: 1px solid #000;">
+            <th style="padding: 10px 12px;"></th>
+            <th colspan="3" style="padding: 10px 12px; border-left: 1px solid #000; border-right: 1px solid #000;">World model</th>
+            <th colspan="2" style="padding: 10px 12px;">Traffic simulation</th>
+          </tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <th style="padding: 10px 12px; text-align: left;">Variant</th>
+            <th style="padding: 10px 12px; border-left: 1px solid #000;">FVD(&darr;)(x10<sup>-3</sup>)</th>
+            <th style="padding: 10px 12px;">IoU<sub>static</sub>(&uarr;)</th>
+            <th style="padding: 10px 12px; border-right: 1px solid #000;">IoU<sub>dynamic</sub>(&uarr;)</th>
+            <th style="padding: 10px 12px;">RMM(&uarr;)</th>
+            <th style="padding: 10px 12px;">minADE(&darr;)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">Semantic-WM</td>
+            <td style="padding: 10px 12px; border-left: 1px solid #000;">23</td>
+            <td style="padding: 10px 12px;">0.89</td>
+            <td style="padding: 10px 12px; border-right: 1px solid #000;">0.73</td>
+            <td style="padding: 10px 12px;">0.7651</td>
+            <td style="padding: 10px 12px;">1.4081</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; text-align: left;">NonSem Uniform-RF</td>
+            <td style="padding: 10px 12px; border-left: 1px solid #000;">51</td>
+            <td style="padding: 10px 12px;">0.85</td>
+            <td style="padding: 10px 12px; border-right: 1px solid #000;">0.58</td>
+            <td style="padding: 10px 12px;">0.7547</td>
+            <td style="padding: 10px 12px;">1.4826</td>
+          </tr>
+          <tr style="border-bottom: 2px solid #000;">
+            <td style="padding: 10px 12px; text-align: left;">NonSem MA-RF</td>
+            <td style="padding: 10px 12px; border-left: 1px solid #000;">35</td>
+            <td style="padding: 10px 12px;">0.87</td>
+            <td style="padding: 10px 12px; border-right: 1px solid #000;">0.71</td>
+            <td style="padding: 10px 12px;">0.7618</td>
+            <td style="padding: 10px 12px;">1.4334</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div>
+    <h2>Scaling with Unlabeled Data</h2>
+    <div style="margin: auto; margin-top: auto; margin-bottom: 18px;" align="center">
+      <h4>
+        RMM vs. amount of unlabeled data in world-model training: Adding unlabeled LiDAR sequences enhances AutoWorld's simulation realism. Baselines without a world model can't use unlabeled data. In the full AutoWorld setting, the baseline employs motion diversity, while it uses IID sampling in the IID/IID setting.
+      </h4>
+    </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+      <img
+        src="figures/legend.png"
+        alt="Legend for scaling figure"
+        style="width: 90%; max-width: 900px; height: auto; display: block;"
+      >
+    </div>
+    <div style="display: flex; justify-content: center; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
+      <div style="width: 32%; min-width: 280px;">
+        <img
+          src="figures/AutoWorld.png"
+          alt="AutoWorld scaling plot"
+          style="width: 100%; height: auto; display: block;"
+        >
+      </div>
+      <div style="width: 32%; min-width: 280px;">
+        <img
+          src="figures/iid_iid.png"
+          alt="IID IID scaling plot"
+          style="width: 100%; height: auto; display: block;"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div>
+    <h2>Simulated Scenarios</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start;">
+      <div>
+        <video playsinline autoplay loop preload muted width="100%" controls>
+          <source src="videos/rollout_01_two_panel.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div>
+        <video playsinline autoplay loop preload muted width="100%" controls>
+          <source src="videos/rollout_02_two_panel.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div>
+        <video playsinline autoplay loop preload muted width="100%" controls>
+          <source src="videos/rollout_02_two_panel 2.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div>
+        <video playsinline autoplay loop preload muted width="100%" controls>
+          <source src="videos/rollout_03_two_panel.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div>
+    <h2>Qualitative Analysis</h2>
+    <div style="margin: auto; margin-top: auto; margin-bottom: 18px;" align="center">
+      <h4>
+        Qualitative analysis of multimodal behavior coverage. The ground-truth ego trajectory, candidate SDC paths from WOMD, and 32 rollouts generated by AutoWorld are visualized (left to right). The model produces diverse behaviors within a single scenario, including alternative turning directions and lane changes, with diversity that also reflects different kinematic profiles.
+      </h4>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start;">
+      <img src="figures/SDC/22/1.png" alt="Qualitative behavior coverage 22-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/22/2.png" alt="Qualitative behavior coverage 22-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/22/3.png" alt="Qualitative behavior coverage 22-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/11/1.png" alt="Qualitative behavior coverage 11-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/11/2.png" alt="Qualitative behavior coverage 11-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/11/3.png" alt="Qualitative behavior coverage 11-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/17/1.png" alt="Qualitative behavior coverage 17-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/17/2.png" alt="Qualitative behavior coverage 17-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/17/3.png" alt="Qualitative behavior coverage 17-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/18/1.png" alt="Qualitative behavior coverage 18-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/18/2.png" alt="Qualitative behavior coverage 18-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/18/3.png" alt="Qualitative behavior coverage 18-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/21/1.png" alt="Qualitative behavior coverage 21-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/21/2.png" alt="Qualitative behavior coverage 21-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/21/3.png" alt="Qualitative behavior coverage 21-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/25/1.png" alt="Qualitative behavior coverage 25-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/25/2.png" alt="Qualitative behavior coverage 25-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/25/3.png" alt="Qualitative behavior coverage 25-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/27/1.png" alt="Qualitative behavior coverage 27-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/27/2.png" alt="Qualitative behavior coverage 27-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/27/3.png" alt="Qualitative behavior coverage 27-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/28/1.png" alt="Qualitative behavior coverage 28-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/28/2.png" alt="Qualitative behavior coverage 28-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/28/3.png" alt="Qualitative behavior coverage 28-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/29/1.png" alt="Qualitative behavior coverage 29-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/29/2.png" alt="Qualitative behavior coverage 29-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/29/3.png" alt="Qualitative behavior coverage 29-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/8/1.png" alt="Qualitative behavior coverage 8-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/8/2.png" alt="Qualitative behavior coverage 8-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/8/3.png" alt="Qualitative behavior coverage 8-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/7/1.png" alt="Qualitative behavior coverage 7-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/7/2.png" alt="Qualitative behavior coverage 7-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/7/3.png" alt="Qualitative behavior coverage 7-3" style="width: 100%; height: auto; display: block;">
+
+      <img src="figures/SDC/30/1.png" alt="Qualitative behavior coverage 30-1" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/30/2.png" alt="Qualitative behavior coverage 30-2" style="width: 100%; height: auto; display: block;">
+      <img src="figures/SDC/30/3.png" alt="Qualitative behavior coverage 30-3" style="width: 100%; height: auto; display: block;">
+    </div>
+  </div>
+  <div class="hr-long"></div>
+  <div class="content" style="max-width: 960px;">
+    <h2>Citation</h2>
+    <p>
+      If you find this project helpful, please cite us:
+    </p>
+    <div id="bibtex-text" class="bibtexsection">
+@article{pourkeshavatz2026autoworld,
+  title={AutoWorld: Scaling Multi-Agent Traffic Simulation with Self-Supervised World Models},
+  author={Mozhgan Pourkeshavatz and Tianran Liu and Nicholas Rhinehart},
+  journal={arXiv},
+  year={2026}
+}
+    </div>
+  </div>
+
+
+</div>
+
+</body></html>
